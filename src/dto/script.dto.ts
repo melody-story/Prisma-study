@@ -1,8 +1,7 @@
-import { Optional, Options } from "@nestjs/common"
-import { IsBoolean, isBooleanString, isDataURI, IsDate, IsDateString, isDateString, IsNumber, isString, IsString, IsUrl } from "class-validator"
+import { IsBoolean, isBooleanString, isDataURI, IsDate, IsDateString, isDateString, IsNumber, IsOptional, isString, IsString, IsUrl } from "class-validator"
 
 export class ScriptDTO {
-    @Optional()
+    @IsOptional()
     @IsNumber()
     id	
     
@@ -18,18 +17,22 @@ export class ScriptDTO {
     @IsString()
     remarks     
     
+    @IsOptional()
     @IsNumber()
     client_id
     
     @IsDate()// IsDate와 무엇이 다른지...?
     date_of_created
-
+    
+    @IsOptional()
     @IsDate()
     date_of_updated
 }
 
+
+
 export class ScriptStatusDTO {
-    @Optional()
+    @IsOptional()
     @IsNumber()
     id	
 
@@ -45,18 +48,20 @@ export class ScriptStatusDTO {
     @IsNumber()
     download_count	
 
+    @IsOptional()
     @IsNumber()
     client_id
         
     @IsDate()
     date_of_created
 
+    @IsOptional()
     @IsDate()
     date_of_updated
 }
 
 export class SentenceDTO {
-    @Optional()
+    @IsOptional()
     @IsNumber()
     id	      
 
@@ -69,11 +74,13 @@ export class SentenceDTO {
     @IsDate()
     date_of_created	
 
+    @IsOptional()
     @IsDate()
     date_of_updated
 }
 
 export class SentenceStatusDTO {
+    @IsOptional()
     @IsNumber()
     id	          
 
@@ -86,30 +93,30 @@ export class SentenceStatusDTO {
     @IsDate()
     date_of_created	
     
+    @IsOptional()
     @IsDate()
     date_of_updated
 }
 
 export class sentence_requirements {
-    @Optional()
+    @IsOptional()
     @IsNumber()
-    id          	
+    id    
 
     @IsString()
     language
-    
-    @IsNumber()
-    age	            
 
+    @IsOptional()
+    @IsNumber()
+    age	       
+
+    @IsOptional()
     @IsString()
-    gender      	
+    gender     
 
     @IsNumber()
     sentance_id	  
 
-    @IsNumber()
-    voice_id	    
- 
     @IsDate()
     date_of_created	
  

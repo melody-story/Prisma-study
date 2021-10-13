@@ -1,4 +1,4 @@
-import { IsNumber, IsOptional, IsString, IsDate } from "class-validator"
+import { IsNumber, IsOptional, IsString, IsDate, IsUrl } from 'class-validator';
 
 export class VoiceDTO {
     @IsOptional()
@@ -8,21 +8,25 @@ export class VoiceDTO {
     @IsNumber()
     file_size	   
     
-    @IsString()
-    description	   
-    
+    @IsUrl()
     @IsString()
     url	          
     
     @IsNumber()
     user_id	        
     
+    @IsOptional()
+    @IsNumber()
+    sentenceRequirementId
+   
     @IsDate()
     date_of_created	
     
+    @IsOptional()
     @IsDate()
     date_of_updated
 }
+
 
 export class VoiceStatusDTO {
     @IsOptional()
@@ -32,6 +36,7 @@ export class VoiceStatusDTO {
     @IsNumber()
     voice_id	    
     
+    @IsOptional()
     @IsNumber()
     download_count	
     
@@ -46,7 +51,8 @@ export class VoiceStatusDTO {
     
     @IsDate()
     date_of_created	
-    
+
+    @IsOptional()
     @IsDate()
     date_of_updated
 }

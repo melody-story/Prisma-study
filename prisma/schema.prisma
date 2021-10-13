@@ -11,74 +11,87 @@ generator client {
 }
 
 model Voice {
-    id	          Int      @default(autoincrement()) @id
-    file_size	    Bytes    @db.ByteA   //수정
-    description	  String   @db.Text() @default("")//(50)
-    url	          String   @db.VarChar(500) //url필드가 있는지?
-    // user	        USER     @relation("WrittenPosts", fields: [userId], references: [id])
-    userId	      Int      @db.Integer
-    dateOfCreated	DateTime @db.Timestamptz(3)
-    dateOfUpdated	DateTime @db.Timestamptz(3)
+    id	                  Int       @default(autoincrement()) @id
+    file_size	          Bytes     @db.ByteA   
+    url	                  String    @db.VarChar(500) 
+    // user	              User?     @relation(fields: [userId], references: [id])
+    userId	              Int           
+    sentenceRequirement	  SentenceRequirement? @relation(fields: [sentenceRequirementId], references: [id])
+    sentenceRequirementId Int
+    dateOfCreated	      DateTime  @db.Timestamptz(3)  @default(now())
+    dateOfUpdated	      DateTime? @db.Timestamptz(3) @updatedAt
+    voiceStatus           VoiceStatus?
 }
-
 
 model VoiceStatus {
-    id      	    Int      @default(autoincrement()) @id
-    voiceId	      Int      @db.Integer @relation("Voice", references: [id])
-    downloadCount	Int      @db.Integer //수정함
-    clientId   	  Int      @db.Integer
-    verify      	String   @db.VarChar(50)
-    userId	      Int      @db.Integer
-    dateOfCreated	DateTime @db.Timestamptz(3)
-    dateOfUpdated	DateTime @db.Timestamptz(3) 
+    id      	    Int       @default(autoincrement()) @id
+    voice	        Voice     @relation(fields: [voiceId], references: [id])
+    voiceId	        Int       
+    downloadCount	Int       @default(0)    
+    // client	    Client?     @relation(fields: [clientId], references: [id])
+    clientId   	    Int      
+    verify      	String    @db.VarChar(50)
+    // user	        User?     @relation(fields: [userId], references: [id])
+    userId	        Int       
+    dateOfCreated	DateTime  @db.Timestamptz(3) @default(now())
+    dateOfUpdated	DateTime? @db.Timestamptz(3) @updatedAt
 }
 
-
 model Script {
-    id	          Int      @default(autoincrement()) @id
-    title	        String   @db.VarChar(50) @unique
-    url	          String   @db.VarChar(300)
-    file_size	    Bytes    @db.ByteA   //수정
-    remarks       String   @db.VarChar(1000) 
-    clientId	    Int      @db.Integer
-    dateOfCreated	DateTime @db.Timestamptz(3)
-    dateOfUpdated	DateTime @db.Timestamptz(3)
+    id	            Int           @default(autoincrement()) @id
+    title	        String        @db.VarChar(50) @unique
+    url	            String        @db.VarChar(500)
+    file_size	    Bytes         @db.ByteA   //수정
+    remarks         String        @db.VarChar(1000) 
+    // client	    Client?       @relation(fields: [clientId], references: [id])
+    clientId	    Int?     
+    dateOfCreated	DateTime      @db.Timestamptz(3) @default(now())
+    dateOfUpdated	DateTime?     @db.Timestamptz(3) @updatedAt
+    scriptStatus    ScriptStatus?
+    sentance        Sentance?
 }
 
 model ScriptStatus {
-    id	          Int      @default(autoincrement()) @id
-    scriptId	    Int      @db.Integer
-    post	        Boolean  @db.Boolean @default(false)
-    deadline	    Boolean  @db.Boolean @default(false)
-    downloadCount	Int      @db.Integer @default(0)//수정함 
-    clientId	    Int      @db.Integer
-    dateOfCreated	DateTime @db.Timestamptz(3)
-    dateOfUpdated	DateTime @db.Timestamptz(3)
+    id	            Int       @default(autoincrement()) @id
+    script	        Script    @relation(fields: [scriptId], references: [id])
+    scriptId	    Int       @db.Integer//FK
+    post	        Boolean   @db.Boolean @default(false)
+    deadline	    Boolean   @db.Boolean @default(false)
+    downloadCount	Int       @default(0)
+    // client	    Client?   @relation(fields: [clientId], references: [id])
+    clientId	    Int?      
+    dateOfCreated	DateTime  @db.Timestamptz(3) @default(now())
+    dateOfUpdated	DateTime? @db.Timestamptz(3) @updatedAt
 }
 
-model Sentence {
-    id	          Int      @default(autoincrement()) @id
-    scriptId	    Int      @db.Integer
-    context	      String   @db.VarChar(5000)
-    dateOfCreated	DateTime @db.Timestamptz(3)
-    dateOfUpdated	DateTime @db.Timestamptz(3)
+model Sentance {
+    id	                Int       @default(autoincrement()) @id
+    script	            Script    @relation(fields: [scriptId], references: [id])
+    scriptId	        Int      
+    context	            String    @db.VarChar(5000)
+    dateOfCreated	    DateTime  @db.Timestamptz(3) @default(now())
+    dateOfUpdated	    DateTime? @db.Timestamptz(3) @updatedAt
+    sentenceRequirement SentenceRequirement?
 }
 
 model SentenceStatus {
     id	                  Int      @default(autoincrement()) @id
-    sentanceRequirementId	Int      @db.Integer
+    sentanceRequirement	  SentenceRequirement     @relation(fields: [sentanceRequirementId], references: [id])
+    sentanceRequirementId Int      
     deadlineStatus	      Boolean  @db.Boolean @default(false)
-    dateOfCreated	        DateTime @db.Timestamptz(3)
-    dateOfUpdated	        DateTime @db.Timestamptz(3)
+    dateOfCreated	      DateTime  @db.Timestamptz(3) @default(now())
+    dateOfUpdated	      DateTime? @db.Timestamptz(3) @updatedAt
 }
 
 model SentenceRequirement {
-    id            Int      @default(autoincrement()) @id
-    language      String   @db.VarChar(50)
-    age	          Int      @db.Integer
-    gender        String   @db.VarChar(50)
-    sentanceId	  Int      @db.Integer
-    voiceId	      Int      @db.Integer //nuㅣㅣ허용
-    dateOfCreated	DateTime @db.Timestamptz(3)
-    dateOfUpdated	DateTime @db.Timestamptz(3)
+    id             Int       @default(autoincrement()) @id
+    language       String    @db.VarChar(50)
+    age	           Int?      
+    gender         String?   @db.VarChar(50)
+    sentence	   Sentance  @relation(fields: [sentenceId], references: [id])
+    sentenceId	   Int      
+    dateOfCreated  DateTime  @db.Timestamptz(3) @default(now())
+    dateOfUpdated  DateTime? @db.Timestamptz(3) @updatedAt
+    voice	       Voice?    
+    sentenceStatus SentenceStatus?
 }
