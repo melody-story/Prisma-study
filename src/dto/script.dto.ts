@@ -1,26 +1,26 @@
 import { Optional, Options } from "@nestjs/common"
-import { IsBoolean, isBooleanString, isDataURI, IsDate, IsDateString, isDateString, IsNumber, isString, IsString } from "class-validator"
+import { IsBoolean, isBooleanString, isDataURI, IsDate, IsDateString, isDateString, IsNumber, isString, IsString, IsUrl } from "class-validator"
 
 export class ScriptDTO {
     @Optional()
     @IsNumber()
     id	
-
+    
     @IsString()
     title	
-
+    
+    @IsString()
+    url
+    
     @IsNumber()
     file_size	  
-
+    
     @IsString()
     remarks     
     
     @IsNumber()
     client_id
     
-    @IsString()
-    url
-
     @IsDate()// IsDate와 무엇이 다른지...?
     date_of_created
 
