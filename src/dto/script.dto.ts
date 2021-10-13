@@ -1,48 +1,118 @@
-export class Script {
-    id	            integer
-    title	        varchar(50)
-    file_size	    decimal(6,3)
-    remarks     	varchar(1000)
-    client_id	    integer
-    url	            varchar(300)
-    date_of_created	datetime
-    date_of_updated	datetime
+import { Optional, Options } from "@nestjs/common"
+import { IsBoolean, isBooleanString, isDataURI, IsDate, IsDateString, isDateString, IsNumber, isString, IsString } from "class-validator"
+
+export class ScriptDTO {
+    @Optional()
+    @IsNumber()
+    id	
+
+    @IsString()
+    title	
+
+    @IsNumber()
+    file_size	  
+
+    @IsString()
+    remarks     
+    
+    @IsNumber()
+    client_id
+    
+    @IsString()
+    url
+
+    @IsDate()// IsDate와 무엇이 다른지...?
+    date_of_created
+
+    @IsDate()
+    date_of_updated
 }
 
-export class script_status {
-    id	            integer
-    script_id	    integer
-    post	        boolean
-    deadline	    boolean
-    download_count	decimal(6,3)
-    client_id	    integer
-    date_of_created	datetime
-    date_of_updated	datetime
+export class ScriptStatusDTO {
+    @Optional()
+    @IsNumber()
+    id	
+
+    @IsNumber()
+    script_id	
+
+    @IsBoolean()   
+    post	
+           
+    @IsBoolean()   
+    deadline	
+
+    @IsNumber()
+    download_count	
+
+    @IsNumber()
+    client_id
+        
+    @IsDate()
+    date_of_created
+
+    @IsDate()
+    date_of_updated
 }
 
-export class sentences {
-    id	            integer
-    script_id	    integer
-    context	        varchar(1000)
-    date_of_created	datetime
-    date_of_updated	datetime
+export class SentenceDTO {
+    @Optional()
+    @IsNumber()
+    id	      
+
+    @IsNumber()
+    script_id
+
+    @IsString()	    
+    context	 
+
+    @IsDate()
+    date_of_created	
+
+    @IsDate()
+    date_of_updated
 }
 
-export class sentence_status {
-    id	                    integer
-    sentance_requirement_id	integer
-    deadline_status	        boolean
-    date_of_created	        datetime
-    date_of_updated	        datetime
+export class SentenceStatusDTO {
+    @IsNumber()
+    id	          
+
+    @IsNumber()
+    sentance_requirement_id	
+    
+    @IsBoolean()   
+    deadline_status	 
+    
+    @IsDate()
+    date_of_created	
+    
+    @IsDate()
+    date_of_updated
 }
 
 export class sentence_requirements {
-    id          	integer
-    language    	varchar(50)
-    age	            integer
-    gender      	varchar(50)
-    sentance_id	    integer
-    voice_id	    integer
-    date_of_created	datetime
-    date_of_updated	datetime
+    @Optional()
+    @IsNumber()
+    id          	
+
+    @IsString()
+    language
+    
+    @IsNumber()
+    age	            
+
+    @IsString()
+    gender      	
+
+    @IsNumber()
+    sentance_id	  
+
+    @IsNumber()
+    voice_id	    
+ 
+    @IsDate()
+    date_of_created	
+ 
+    @IsDate()
+    date_of_updated
 }

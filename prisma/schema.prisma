@@ -1,0 +1,91 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+model Voice {
+    id	          Int   @default(autoincrement()) @id
+    fileSize	    Decimal //(6,3) 
+    description	  String  //(50)
+    url	          String  //(500) URL필드로 바꿔야할까???
+    userId	      Int  // 
+    dateOfCreated	DateTime
+    dateOfUpdated	DateTime
+}
+
+model VoiceStatus {
+    id      	    Int  @default(autoincrement()) @id
+    voiceId	      Int
+    downloadCount	Decimal//(6,3)
+    clientId   	  Int
+    verify      	String // (50)
+    userId	      Int
+    dateOfCreated	DateTime
+    dateOfUpdated	DateTime
+}
+
+
+model Script {
+    id	          Int  @default(autoincrement()) @id
+    title	        String //(50)
+    file_size	    Decimal//(6,3)
+    remarks       String //(1000)
+    clientId	    Int
+    url	          String //(300)
+    dateOfCreated	DateTime
+    dateOfUpdated	DateTime
+}
+
+model ScriptStatus {
+    id	          Int   @default(autoincrement()) @id
+    scriptId	    Int
+    post	        Boolean
+    deadline	    Boolean
+    downloadCount	Decimal//(6,3)
+    clientId	    Int
+    dateOfCreated	DateTime
+    dateOfUpdated	DateTime
+}
+
+model Sentence {
+    id	          Int   @default(autoincrement()) @id
+    scriptId	    Int
+    context	      String //(1000)
+    dateOfCreated	DateTime
+    dateOfUpdated	DateTime
+}
+
+model SentenceStatus {
+    id	                  Int   @default(autoincrement()) @id
+    sentanceRequirementId	Int
+    deadlineStatus	      Boolean
+    dateOfCreated	        DateTime
+    dateOfUpdated	        DateTime
+}
+
+model SentenceRequirement {
+    id            Int   @default(autoincrement()) @id
+    language      String // (50)
+    age	          Int
+    gender        String //(50)
+    sentanceId	  Int
+    voiceId	      Int
+    dateOfCreated	DateTime
+    dateOfUpdated	DateTime
+}
+
+
+
+
+
+
+
+

@@ -1,6 +1,6 @@
 import { IsNumber, IsOptional, IsString, IsDate } from "class-validator"
 
-export class voices {
+export class VoiceDTO {
     @IsOptional()
     @IsNumber()
     id	   
@@ -24,7 +24,7 @@ export class voices {
     date_of_updated
 }
 
-export class voice_status {
+export class VoiceStatusDTO {
     @IsOptional()
     @IsNumber()
     id      	   
