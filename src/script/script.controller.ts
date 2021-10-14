@@ -5,7 +5,7 @@ import { VoiceDTO } from '../dto/voice.dto';
 @Controller('script')
 export class ScriptController {
 
-    constructor(private readonly scripsService: ScriptService) {}
+    // constructor(private readonly scripsService: ScriptService) {}
 
     // @Get()
     // getAll(): VoiceDTO[] {

@@ -11,15 +11,15 @@ generator client {
 }
 
 model Voice {
-    id	                  Int       @default(autoincrement()) @id
-    file_size	          Bytes     @db.ByteA   
-    url	                  String    @db.VarChar(500) 
-    // user	              User?     @relation(fields: [userId], references: [id])
+    id	                  Int               @default(autoincrement()) @id
+    file_size	          Bytes             @db.ByteA   
+    url	                  String            @db.VarChar(500) 
+    // user	              User?             @relation(fields: [userId], references: [id])
     userId	              Int           
-    sentenceRequirement	  SentenceRequirement? @relation(fields: [sentenceRequirementId], references: [id])
-    sentenceRequirementId Int
-    dateOfCreated	      DateTime  @db.Timestamptz(3)  @default(now())
-    dateOfUpdated	      DateTime? @db.Timestamptz(3) @updatedAt
+    requiredSentence	  RequiredSentence? @relation(fields: [requiredSentenceId], references: [id])
+    requiredSentenceId    Int
+    dateOfCreated	      DateTime          @db.Timestamptz(3)  @default(now())
+    dateOfUpdated	      DateTime?         @db.Timestamptz(3) @updatedAt
     voiceStatus           VoiceStatus?
 }
 
@@ -33,6 +33,7 @@ model VoiceStatus {
     verify      	String    @db.VarChar(50)
     // user	        User?     @relation(fields: [userId], references: [id])
     userId	        Int       
+    playCount	    Int       @default(0)    
     dateOfCreated	DateTime  @db.Timestamptz(3) @default(now())
     dateOfUpdated	DateTime? @db.Timestamptz(3) @updatedAt
 }
@@ -48,47 +49,50 @@ model Script {
     dateOfCreated	DateTime      @db.Timestamptz(3) @default(now())
     dateOfUpdated	DateTime?     @db.Timestamptz(3) @updatedAt
     scriptStatus    ScriptStatus?
-    sentance        Sentance?
+    sentence        Sentence?
 }
 
 model ScriptStatus {
-    id	            Int       @default(autoincrement()) @id
-    script	        Script    @relation(fields: [scriptId], references: [id])
-    scriptId	    Int       @db.Integer//FK
-    post	        Boolean   @db.Boolean @default(false)
-    deadline	    Boolean   @db.Boolean @default(false)
-    downloadCount	Int       @default(0)
-    // client	    Client?   @relation(fields: [clientId], references: [id])
-    clientId	    Int?      
-    dateOfCreated	DateTime  @db.Timestamptz(3) @default(now())
-    dateOfUpdated	DateTime? @db.Timestamptz(3) @updatedAt
+    id	                 Int       @default(autoincrement()) @id
+    script	             Script    @relation(fields: [scriptId], references: [id])
+    scriptId	         Int       @db.Integer
+    post	             Boolean   @default(false)
+    deadline	         Boolean   @default(false)
+    downloadCount	     Int       @default(0)
+    // client	         Client?   @relation(fields: [clientId], references: [id])
+    clientId	         Int?  
+    download_max         Int?
+    download_preiod_from DateTime? @db.Date    
+    download_preiod_to   DateTime? @db.Date
+    dateOfCreated	     DateTime  @db.Timestamptz(3) @default(now())
+    dateOfUpdated	     DateTime? @db.Timestamptz(3) @updatedAt
 }
 
-model Sentance {
-    id	                Int       @default(autoincrement()) @id
-    script	            Script    @relation(fields: [scriptId], references: [id])
-    scriptId	        Int      
-    context	            String    @db.VarChar(5000)
-    dateOfCreated	    DateTime  @db.Timestamptz(3) @default(now())
-    dateOfUpdated	    DateTime? @db.Timestamptz(3) @updatedAt
-    sentenceRequirement SentenceRequirement?
+model Sentence {
+    id	             Int       @default(autoincrement()) @id
+    script	         Script    @relation(fields: [scriptId], references: [id])
+    scriptId	     Int      
+    context	         String    @db.VarChar(5000)
+    dateOfCreated	 DateTime  @db.Timestamptz(3) @default(now())
+    dateOfUpdated	 DateTime? @db.Timestamptz(3) @updatedAt
+    requiredSentence RequiredSentence?
 }
 
 model SentenceStatus {
-    id	                  Int      @default(autoincrement()) @id
-    sentanceRequirement	  SentenceRequirement     @relation(fields: [sentanceRequirementId], references: [id])
-    sentanceRequirementId Int      
-    deadlineStatus	      Boolean  @db.Boolean @default(false)
-    dateOfCreated	      DateTime  @db.Timestamptz(3) @default(now())
-    dateOfUpdated	      DateTime? @db.Timestamptz(3) @updatedAt
+    id	               Int              @default(autoincrement()) @id
+    requiredSentence   RequiredSentence @relation(fields: [requiredSentenceId], references: [id])
+    requiredSentenceId Int      
+    deadlineStatus	   Boolean          @default(false)
+    dateOfCreated	   DateTime         @db.Timestamptz(3) @default(now())
+    dateOfUpdated	   DateTime?        @db.Timestamptz(3) @updatedAt
 }
 
-model SentenceRequirement {
+model RequiredSentence {
     id             Int       @default(autoincrement()) @id
     language       String    @db.VarChar(50)
     age	           Int?      
     gender         String?   @db.VarChar(50)
-    sentence	   Sentance  @relation(fields: [sentenceId], references: [id])
+    sentence	   Sentence  @relation(fields: [sentenceId], references: [id])
     sentenceId	   Int      
     dateOfCreated  DateTime  @db.Timestamptz(3) @default(now())
     dateOfUpdated  DateTime? @db.Timestamptz(3) @updatedAt
